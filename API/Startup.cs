@@ -11,9 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Persistence;
 using Microsoft.EntityFrameworkCore;
-
+using API.Extensions;
 namespace API
 {
     public class Startup
@@ -24,21 +23,12 @@ namespace API
             _config = config;
         }
 
- 
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
-            });
-            services.AddDbContext<DataContext>(opt=>
-            {
-                opt.UseSqlite(_config.GetConnectionString("DefaultConnection"));
-            });
+            services.AddApplictionServices(_config);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +44,8 @@ namespace API
             // app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 
