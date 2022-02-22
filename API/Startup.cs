@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using API.Extensions;
+using FluentValidation.AspNetCore;
+
 namespace API
 {
     public class Startup
@@ -27,7 +29,9 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation(config=>{
+                config.RegisterValidatorsFromAssemblyContaining<Appliction.Activities.Create>();
+            });
             services.AddApplictionServices(_config);
         }
 

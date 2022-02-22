@@ -1,15 +1,12 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { Button, Container, Menu } from "semantic-ui-react";
 
-interface Props {
-	openForm: () => void;
-}
-
-const Navbar = ({ openForm }: Props) => {
+const Navbar = () => {
 	return (
 		<Menu inverted fixed="top">
 			<Container>
-				<Menu.Item header>
+				<Menu.Item header as={NavLink} to="/" exact>
 					<img
 						src="/assets/logo.png"
 						alt="logo"
@@ -17,9 +14,15 @@ const Navbar = ({ openForm }: Props) => {
 					/>
 					ActivitiesBar
 				</Menu.Item>
-				<Menu.Item name="Activities" />
+				<Menu.Item name="Activities" as={NavLink} to="/activities" />
+				<Menu.Item name="Errors" as={NavLink} to="/errors" />
 				<Menu.Item>
-					<Button positive content="Create Activity" onClick={openForm} />
+					<Button
+						positive
+						content="Create Activity"
+						as={NavLink}
+						to="/createActivity"
+					/>
 				</Menu.Item>
 			</Container>
 		</Menu>

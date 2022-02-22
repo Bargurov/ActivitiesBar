@@ -1,66 +1,27 @@
-import React, { SyntheticEvent, useState } from "react";
-import { Button, Item, Label, Segment } from "semantic-ui-react";
-import { Activity } from "../../../app/models/activity";
+import { observer } from "mobx-react-lite";
+import { Fragment } from "react";
+import {  Header } from "semantic-ui-react";
+import { useStore } from "../../../app/stores/store";
+import ActivityListItem from "./ActivityListItem";
 
-interface Props {
-	activities: Activity[];
-	selectActivity: (id: string) => void;
-	deleteActivity: (id: string) => void;
-	submitting: boolean;
-}
+const ActivityList = () => {
+	const { activityStore } = useStore();
+	const { groupOfActivities } = activityStore;
 
-const ActivityList = ({
-	activities,
-	selectActivity,
-	deleteActivity,
-	submitting,
-}: Props) => {
-	const [target, setTarget] = useState("");
-	const handleDelete = (
-		event: SyntheticEvent<HTMLButtonElement>,
-		id: string,
-	) => {
-		setTarget(event.currentTarget.name);
-		deleteActivity(id);
-	};
 	return (
-		<Segment>
-			<Item.Group divided>
-				{activities.map((activity) => (
-					<Item key={activity.id}>
-						<Item.Content>
-							<Item.Header>{activity.title}</Item.Header>
-							<Item.Meta>{activity.date}</Item.Meta>
-							<Item.Description>
-								<div>{activity.description}</div>
-								<div>
-									{activity.city}
-									{activity.venue}
-								</div>
-							</Item.Description>
-							<Item.Extra>
-								<Button
-									floated="right"
-									content="view"
-									color="blue"
-									onClick={() => selectActivity(activity.id)}
-								/>
-								<Button
-									floated="right"
-									content="Delete"
-									color="red"
-									onClick={(event) => handleDelete(event, activity.id)}
-									loading={submitting && target === activity.id}
-									name={activity.id}
-								/>
-								<Label basic content={activity.category} />
-							</Item.Extra>
-						</Item.Content>
-					</Item>
-				))}
-			</Item.Group>
-		</Segment>
+		<>
+			{groupOfActivities.map(([group, activities]) => (
+				<Fragment key={group}>
+					<Header sub color="teal">
+						{group}
+					</Header>
+					{activities.map((activity) => (
+						<ActivityListItem activity={activity} key={activity.id} />
+					))}
+				</Fragment>
+			))}
+		</>
 	);
 };
 
-export default ActivityList;
+export default observer(ActivityList);
