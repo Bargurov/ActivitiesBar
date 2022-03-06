@@ -8,12 +8,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Domain;
 
 namespace API
 {
     public class Program
-    {
-        public static async Task  Main(string[] args)
+    {        public static async Task  Main(string[] args)
         {
              var host = CreateHostBuilder(args).Build();
              using var scope = host.Services.CreateScope();
@@ -22,8 +23,9 @@ namespace API
              try
              {
                  var context = services.GetRequiredService<DataContext>();
+                 var userManager =services.GetRequiredService<UserManager<AppUser>>();
                  await context.Database.MigrateAsync();
-                 await Seed.SeedData(context);
+                 await Seed.SeedData(context,userManager);
              }
              catch(Exception ex)
              {

@@ -6,16 +6,16 @@ import { useStore } from "../../../app/stores/store";
 import ActivityFilters from "./ActivityFilters";
 import ActivityList from "./ActivityList";
 
-const ActivityDashBoard = () => {
+const ActivityDashboard = () => {
 	const { activityStore } = useStore();
-	const { loadActivities, activityMap } = activityStore;
+	const { loadActivities, activityRegistry } = activityStore;
 
 	useEffect(() => {
-		if (activityMap.size <= 1) loadActivities();
-	}, [activityMap, loadActivities]);
+		if (activityRegistry.size <= 1) loadActivities();
+	}, [activityRegistry.size, loadActivities]);
 
 	if (activityStore.loadingInitial)
-		return <LoadingComponent content="Loading App" />;
+		return <LoadingComponent content="Loading activities..." />;
 
 	return (
 		<Grid>
@@ -23,10 +23,9 @@ const ActivityDashBoard = () => {
 				<ActivityList />
 			</Grid.Column>
 			<Grid.Column width="6">
-				<ActivityFilters/>
+				<ActivityFilters />
 			</Grid.Column>
 		</Grid>
 	);
 };
-
-export default observer(ActivityDashBoard);
+export default observer(ActivityDashboard);

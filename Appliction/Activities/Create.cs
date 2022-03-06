@@ -7,6 +7,8 @@ using Domain;
 using Persistence;
 using FluentValidation;
 using Appliction.Core;
+using Appliction.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Appliction.Activities
 {
@@ -26,15 +28,29 @@ namespace Appliction.Activities
         public class Handler : IRequestHandler<Command,Result<Unit>>
         {
             private readonly DataContext _context;
+            private readonly IUsernameAccess _UsernameAccess ;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context,IUsernameAccess usernameAccess)
             {
+                _UsernameAccess = usernameAccess;
                 _context = context;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var user = await _context.Users.FirstOrDefaultAsync(x=>x.UserName==_UsernameAccess.getUsername());
+
+                var attendee = new ActivityAttendee
+                {
+                    AppUser=user,
+                    Activity = request.Activity,
+                    IsHost=true,
+                };
+
+                request.Activity.Attendees.Add(attendee);
+                
                 _context.Activities.Add(request.Activity);
+                
                 var result = await _context.SaveChangesAsync() > 0;
 
                 if(!result) return Result<Unit>.Failure("Failed to create activity");
