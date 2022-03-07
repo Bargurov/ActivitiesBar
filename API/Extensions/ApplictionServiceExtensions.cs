@@ -13,6 +13,8 @@ using Persistence;
 using Appliction.Activities;
 using Appliction.Interfaces;
 using Infrastructure.Security;
+using Infrastructure.Photos;
+using Appliction.Photos;
 
 namespace API.Extensions
 {
@@ -38,6 +40,8 @@ namespace API.Extensions
 
              services.AddAutoMapper(typeof(MappingProfiles).Assembly);
              services.AddScoped<IUsernameAccess,UserAccess>();
+             services.AddScoped<IPhotoAccessor,PhotoAccessor>();
+             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
 
              return services;
         }
