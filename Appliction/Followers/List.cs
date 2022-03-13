@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Appliction.Core;
 using Appliction.Interfaces;
@@ -40,14 +40,14 @@ namespace Appliction.Followers
                 switch (request.Predicate)
                 {
                     case "followers":
-                    profiles = await _context.UserFollowers.Where(x=>x.Target.UserName == request.Username)
+                    profiles = await _context.UserFollowings.Where(x=>x.Target.UserName == request.Username)
                         .Select(u=>u.Observer)
                         .ProjectTo<Profiles.Profile>(_mapper.ConfigurationProvider,new {currentUsername = _usernameAccess.getUsername()})
                         .ToListAsync();
                     break;
 
                     case "following":
-                    profiles = await _context.UserFollowers.Where(x=>x.Observer.UserName == request.Username)
+                    profiles = await _context.UserFollowings.Where(x=>x.Observer.UserName == request.Username)
                         .Select(u=>u.Target)
                         .ProjectTo<Profiles.Profile>(_mapper.ConfigurationProvider,new {currentUsername = _usernameAccess.getUsername()})
                         .ToListAsync();

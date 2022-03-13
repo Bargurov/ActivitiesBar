@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Domain;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Configuration;
 
 namespace API.Services
 {

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Appliction.Core;
@@ -8,6 +7,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Domain;
+using System.Threading;
+
 namespace Appliction.Activities
 {
     public class UpdateAttendance

@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Appliction.Core;
 using Appliction.Interfaces;
@@ -38,7 +36,7 @@ namespace Appliction.Followers
 
                 if(target == null) return null;
 
-                var following =await _context.UserFollowers.FindAsync(Observer.Id,target.Id);
+                var following =await _context.UserFollowings.FindAsync(Observer.Id,target.Id);
 
                 if(following == null)
                 {
@@ -47,11 +45,11 @@ namespace Appliction.Followers
                         Observer= Observer,
                         Target =target
                     };
-                    _context.UserFollowers.Add(following);
+                    _context.UserFollowings.Add(following);
                 }
                 else
                 {
-                    _context.UserFollowers.Remove(following);
+                    _context.UserFollowings.Remove(following);
                 }
                 var success = await  _context.SaveChangesAsync() > 0;
 

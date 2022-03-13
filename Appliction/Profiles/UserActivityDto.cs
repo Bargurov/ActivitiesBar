@@ -8,7 +8,7 @@ namespace Appliction.Profiles
 {
     public class UserActivityDto
     {
-        public Guid ActivityID { get; set; }
+        public Guid Id { get; set; }
         public string Title { get; set; }
 
         public string Category { get; set; }

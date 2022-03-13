@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
 using System.Threading.Tasks;
 using MediatR;
 using Domain;
@@ -9,6 +7,7 @@ using FluentValidation;
 using Appliction.Core;
 using Appliction.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace Appliction.Activities
 {
