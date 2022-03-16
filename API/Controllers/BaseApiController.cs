@@ -33,7 +33,7 @@ namespace API.Controllers
             if (result == null) return NotFound();
             if (result.IsSuccess && result.Value != null)
             {
-                Response.AddHeader(result.Value.CurrentPage, result.Value.PageSize, 
+                Response.AddPaginationHeader(result.Value.CurrentPage, result.Value.PageSize, 
                     result.Value.TotalCount, result.Value.TotalPages);
                 return Ok(result.Value);
             }

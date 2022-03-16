@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Appliction.Photos;
 using Microsoft.AspNetCore.Http;
 
-namespace Appliction.Photos
+namespace Appliction.Interfaces
 {
     public interface IPhotoAccessor
     {
